@@ -17,3 +17,15 @@ output "internal_lb_ips" {
 output "subnet_order" {
   value = local.subnet_order
 }
+
+output "public_subnet_name" {
+  value = var.public_subnet_name
+}
+
+output "private_subnet_name" {
+  value = var.private_subnet_name
+}
+
+output "management_subnet_name" {
+  value = var.management_subnet_name
+}

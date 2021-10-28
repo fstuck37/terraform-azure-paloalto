@@ -28,7 +28,7 @@ resource "azurerm_lb_probe" "fw_internal_lb_probe" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "interfaces" {
-  for_each = {for interface in local.firewall_interfaces: "${interface.firewall_name}-${interface.interface_name}"=>interface }
+  for_each = { for s in local.outbound_source_subnets: "${local.firewall_interfaces[s].firewall_name}-${local.firewall_interfaces[s].interface_name}"=>local.firewall_interfaces }
     network_interface_id    = azurerm_network_interface.interfaces["${each.value.firewall_name}-${each.value.interface_name}"].id
     ip_configuration_name   = "${each.value.firewall_name}-${each.value.interface_name}"
     backend_address_pool_id = azurerm_lb_backend_address_pool.outbound_pools[each.value.subnet_short_name].id

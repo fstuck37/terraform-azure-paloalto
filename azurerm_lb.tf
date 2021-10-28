@@ -1,4 +1,4 @@
-/* Internal Load Balancers */
+/* Outbound Load Balancers */
 resource "azurerm_lb" "internal_lbs" {
   for_each = { for s in local.outbound_source_subnets: s => s }
     name                            = "${var.name-vars["account"]}-${var.region}-${var.name-vars["name"]}-${each.value}-lb"
@@ -19,7 +19,7 @@ resource "azurerm_lb_backend_address_pool" "outbound_pools" {
     loadbalancer_id     = azurerm_lb.internal_lbs[each.value].id
 }
 
-resource "azurerm_lb_probe" "fw_internal_lb_probe" {
+resource "azurerm_lb_probe" "outbound_probe" {
   for_each = { for s in local.outbound_source_subnets: s => s }
     resource_group_name = azurerm_resource_group.rg-firewall.name
     loadbalancer_id     = azurerm_lb.internal_lbs[each.value].id
@@ -36,6 +36,21 @@ resource "azurerm_network_interface_backend_address_pool_association" "interface
     backend_address_pool_id = azurerm_lb_backend_address_pool.outbound_pools[each.value.subnet_short_name].id
 }
 
+
+resource "azurerm_lb_rule" "outboundrule" {
+  for_each = local.fw_intlb_ports  
+    resource_group_name            = azurerm_resource_group.rg-firewall.name
+    loadbalancer_id                = azurerm_lb.internal_lbs.id
+    name                           = each.key
+    protocol                       = each.value.protocol
+    frontend_port                  = each.value.port
+    backend_port                   = each.value.port
+    frontend_ip_configuration_name = "${var.name-vars["account"]}-${var.region}-${var.name-vars["name"]}-${var.private_subnet_name}-lb"
+    backend_address_pool_id        = azurerm_lb_backend_address_pool.outbound_pools[var.private_subnet_name].id
+    probe_id                       = azurerm_lb_probe.outbound_probe.id
+    load_distribution              = "SourceIPProtocol"
+    enable_floating_ip             = "true"
+}
 
 
 
@@ -73,11 +88,11 @@ resource "azurerm_network_interface_backend_address_pool_association" "external_
     backend_address_pool_id = azurerm_lb_backend_address_pool.external_pool[0].id
 }
 
-resource "azurerm_lb_probe" "external_lb_probe" {
+resource "azurerm_lb_probe" "external_probe" {
   count               = contains(local.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0 ? 1 : 0 
   resource_group_name = azurerm_resource_group.rg-firewall.name
   loadbalancer_id     = azurerm_lb.external_lb[0].id
-  name                = "external_lb_probe_ssh_probe"
+  name                = "external_probe_ssh_probe"
   port                = 22
 }
 
@@ -102,6 +117,6 @@ resource "azurerm_lb_rule" "lb-rules" {
     backend_port                   = each.value["backend_port"]
     frontend_ip_configuration_name = each.value["domain_name_label"]
     backend_address_pool_ids       = [azurerm_lb_backend_address_pool.external_pool[0].id]
-    probe_id                       = azurerm_lb_probe.external_lb_probe[0].id
+    probe_id                       = azurerm_lb_probe.external_probe[0].id
     load_distribution              = "SourceIPProtocol"
 }

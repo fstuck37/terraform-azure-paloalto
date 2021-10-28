@@ -29,3 +29,10 @@ output "private_subnet_name" {
 output "management_subnet_name" {
   value = var.management_subnet_name
 }
+
+output "next_hop_in_ip_address" {
+  value = {
+    for sn in keys(var.subnets) : sn => module.fw.internal_lb_ips[module.fw.private_subnet_name]
+    if sn != module.fw.public_subnet_name
+  }
+}

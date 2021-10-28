@@ -28,9 +28,7 @@ resource "azurerm_lb_probe" "fw_internal_lb_probe" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "interfaces" {
-  for_each = {for interface in local.firewall_interfaces: "${interface.firewall_name}-${interface.interface_name}"=>interface
-    if !contains(var.subnet_exclude_outbound, interface["subnet_short_name"])
-  }
+  for_each = {for interface in local.firewall_interfaces: "${interface.firewall_name}-${interface.interface_name}"=>interface }
     network_interface_id    = azurerm_network_interface.interfaces["${each.value.firewall_name}-${each.value.interface_name}"].id
     ip_configuration_name   = "${each.value.firewall_name}-${each.value.interface_name}"
     backend_address_pool_id = azurerm_lb_backend_address_pool.outbound_pools[each.value.subnet_short_name].id
@@ -42,7 +40,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "interface
 
 /* ******************** External Load Balancer ******************** */
 resource "azurerm_lb" "external_lb" {
-  count                    = contains(var.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0 ? 1 : 0 
+  count                    = contains(local.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0 ? 1 : 0 
   name                     = "${var.name-vars["account"]}-${var.region}-${var.name-vars["name"]}-extlb"
   location                 = var.region
   resource_group_name      = azurerm_resource_group.rg-firewall.name
@@ -59,14 +57,14 @@ resource "azurerm_lb" "external_lb" {
 }
 
 resource "azurerm_lb_backend_address_pool" "external_pool" {
-  count               = contains(var.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0 ? 1 : 0 
+  count               = contains(local.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0 ? 1 : 0 
   loadbalancer_id     = azurerm_lb.external_lb[0].id
   name                = "${var.name-vars["account"]}-${var.region}-${var.name-vars["name"]}-extlb"
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "external_interfaces" {
   for_each = {for interface in local.firewall_interfaces: "${interface.firewall_name}-${interface.interface_name}"=>interface
-    if interface["subnet_short_name"] == var.public_subnet_name && contains(var.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0
+    if interface["subnet_short_name"] == var.public_subnet_name && contains(local.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0
   }
     network_interface_id    = azurerm_network_interface.interfaces["${each.value.firewall_name}-${each.value.interface_name}"].id
     ip_configuration_name   = "${each.value.firewall_name}-${each.value.interface_name}"
@@ -74,7 +72,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "external_
 }
 
 resource "azurerm_lb_probe" "external_lb_probe" {
-  count               = contains(var.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0 ? 1 : 0 
+  count               = contains(local.subnet_order, var.public_subnet_name) && length(keys(var.hosting_configuration)) > 0 ? 1 : 0 
   resource_group_name = azurerm_resource_group.rg-firewall.name
   loadbalancer_id     = azurerm_lb.external_lb[0].id
   name                = "external_lb_probe_ssh_probe"

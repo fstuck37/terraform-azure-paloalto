@@ -47,23 +47,23 @@ variable "firewall_ip_base" {
   default = 5
 }
 
-	variable "public_subnet_name" {
-	  type = string
-	  description = "Required: The value must match one of the keys present in subnets and denotes the public subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to untrust."
-	  default = "untrust"
-	}
+variable "public_subnet_name" {
+  type = string
+  description = "Required: The value must match one of the keys present in subnets and denotes the public subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to untrust."
+  default = "untrust"
+}
 
-	variable "private_subnet_name" {
-	  type = string
-	  description = "Required: The value must match one of the keys present in subnets and denotes the private subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to trust."
-	  default = "trust"
-	}
+variable "private_subnet_name" {
+  type = string
+  description = "Required: The value must match one of the keys present in subnets and denotes the private subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to trust."
+  default = "trust"
+}
 
-	variable "management_subnet_name" {
-	  type = string
-	  description = "Required: The value must match one of the keys present in subnets and denotes the public subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to mgt."
-	  default = "mgt"
-	}
+variable "management_subnet_name" {
+  type = string
+  description = "Required: The value must match one of the keys present in subnets and denotes the public subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to mgt."
+  default = "mgt"
+}
 
 /*
 variable "subnet_order" {

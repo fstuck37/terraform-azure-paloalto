@@ -47,7 +47,7 @@ resource "azurerm_lb_rule" "outboundrule" {
     backend_port                   = each.value.port
     frontend_ip_configuration_name = "${var.name-vars["account"]}-${var.region}-${var.name-vars["name"]}-${var.private_subnet_name}-lb"
     backend_address_pool_id        = azurerm_lb_backend_address_pool.outbound_pools[var.private_subnet_name].id
-    probe_id                       = azurerm_lb_probe.outbound_probe.id
+    probe_id                       = azurerm_lb_probe.outbound_probe[var.private_subnet_name].id
     load_distribution              = "SourceIPProtocol"
     enable_floating_ip             = "true"
 }

@@ -100,8 +100,12 @@ Argument Reference
    * **resource-tags** - Optional : A map of maps of tags to assign to specifc resources.  The key must be one of the following: azurerm_resource_group, azurerm_availability_set, azurerm_storage_account, azurerm_public_ip, azurerm_network_interface, azurerm_virtual_machine, azurerm_lb otherwise it will be ignored.
    * **firewall_instances** - Optional: The number of firewall instances to deploy, default is 2.
    * **firewall_ip_base** - Optional: The starting IP offset for allocating IP addresses to interfaces. Default is 5.
+   * **public_subnet_name** - Required: The value must match one of the keys present in subnets and denotes the public subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to untrust.
+   * **private_subnet_name** - Required: The value must match one of the keys present in subnets and denotes the private subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to trust.
+   * **management_subnet_name** - Required: The value must match one of the keys present in subnets and denotes the public subnet. This is used to create the hosting LB and external interface of the firewall. If this is not speicified hosting will not be enabled. Defaults to mgt.
+
+
    * **subnets** - Required: The subnets that the firewalls will have Interfaces on. This matches the output from the terraform-azure-vnet module
-   * **public_subnet_name** - Required: The value must match one of the keys present in subnets and denotes the public subnet. This is used to create the hosting LB. If this is not speicified hosting will not be enabled. Defaults to pub.
    * **hosting_configuration** - Optional : A map of maps that define the sites hosted by the firewall. Required keys for each object are domain_name_label, frontend_ports, and backend_ports. The length of frontend_ports and backend_ports must be the same.
    * **subnet_order** - Required: The keys must match keys present in subnets. The values must start with the management interface,followed by any other subnets you want to utilize. This will be the number of and order of the network interfaces attached to the firewall. So typically you would want to mgt, public, trust, dmz1, etc.
    * **subnet_exclude_outbound** - Optional: Subnets to exclude from creating outbound load balancers. The keys must match keys present in subnets. For example outbound traffic would not be needed from the management or public subnets. Defaults to [pub].

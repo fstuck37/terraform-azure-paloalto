@@ -65,34 +65,6 @@ variable "management_subnet_name" {
   default = "mgt"
 }
 
-/*
-variable "subnet_order" {
-  type = list(string)
-  description = "Required: The keys must match those present in the subnets variable. The values must start with the management interface, followed by any other subnets you want to utilize. This will be the number of and order of the network interfaces attached to the firewall."
-  default = []
-  validation {
-    condition = (
-      length(var.subnet_order) >= 1 &&
-      length(var.subnet_order) <= 3
-    )
-    error_message = "The variable subnet_order must be defined."
-  }
-}
-
-variable "subnet_exclude_outbound" {
-  type = list(string)
-  description = "Optional: Subnets to exclude from creating outbound load balancers. The keys must match keys present in subnets. For example outbound traffic would not be needed from the management or public subnets. Defaults to [pub]."
-  default = ["pub"]
-  validation {
-    condition = (
-      length(var.subnet_exclude_outbound) >= 1
-    )
-    error_message = "The variable subnet_order must be defined."
-  }
-}
-*/
-
-
 variable "subnets" {
   type = map(object({
     address_prefix = string

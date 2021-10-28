@@ -45,7 +45,7 @@ locals {
   }
   
   fw_intlb_ports = {
-    for pair in var.fw_intlb_ports : "${element(split("|", pair,0))}-${element(split("|", pair,1))}" => {
+    for pair in var.fw_intlb_ports : "${element(split("|", pair),0)}-${element(split("|", pair),1)}" => {
       protocol = element(split("|", pair,0))
       port     = element(split("|", pair,1))
     }

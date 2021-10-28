@@ -13,3 +13,7 @@ output "external_lb_ips" {
 output "internal_lb_ips" {
   value = local.internal_lb_ips
 }
+
+output "subnet_order" {
+  value = local.subnet_order
+}

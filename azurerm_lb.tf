@@ -40,7 +40,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "interface
 resource "azurerm_lb_rule" "outboundrule" {
   for_each = local.fw_intlb_ports  
     resource_group_name            = azurerm_resource_group.rg-firewall.name
-    loadbalancer_id                = azurerm_lb.internal_lbs.id
+    loadbalancer_id                = azurerm_lb.internal_lbs[var.private_subnet_name].id
     name                           = each.key
     protocol                       = each.value.protocol
     frontend_port                  = each.value.port

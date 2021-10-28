@@ -1,5 +1,5 @@
 output "random_initial_password" {
-  value = random_password.initial_password.result
+  value = random_string.initial_password.result
 }
 
 output "firewall_interface_ips" {

@@ -34,7 +34,7 @@ resource "azurerm_virtual_machine" "firewall" {
     os_profile {
       computer_name  = each.value
       admin_username = var.username
-      admin_password = random_password.initial_password.result
+      admin_password = random_string.initial_password.result
     }
 
     os_profile_linux_config {
@@ -47,7 +47,7 @@ resource "azurerm_virtual_machine" "firewall" {
     tags                         = merge( var.tags, local.resource-tags["azurerm_virtual_machine"] )
 }
 
-resource "random_password" "initial_password" {
+resource "random_string" "initial_password" {
   length           = 16
   special          = true
 }

@@ -5,6 +5,16 @@ This module deploys one or more Palo Alto Firewalls in an Azure VNET.
 
 The goal of this project is to provide a streamlined, simple Terraform script to deploy Palo Altos in Azure.
 
+Note: you must accept the license before using this module.
+```
+
+set AZURE_CLI_DISABLE_CONNECTION_VERIFICATION=1
+az login
+az vm image terms accept --offer vmseries1 --publisher paloaltonetworks --plan bundle1
+az vm image terms accept --offer vmseries1 --publisher paloaltonetworks --plan bundle2
+az vm image terms accept --offer vmseries1 --publisher paloaltonetworks --plan byol
+```
+
 
 Example
 ------------

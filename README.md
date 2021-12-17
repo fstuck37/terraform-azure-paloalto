@@ -131,6 +131,7 @@ Argument Reference
    * **fwversion** - (Optional) Specifies the version of the image used to create the virtual machine. Changing this forces a new resource to be created. Defaults to latest.
    * **username** - (Optional) Specifies the initial username to use to connect to the firewall. Defaults to paloalto.
    * **fw_intlb_ports** - List of protocol|ports for the internal load balancer rules. This must include all protocol|port pairs permitted through the firewall. The default is ["TCP|80","TCP|443","TCP|22"]
+s   * **internal_lb_sku** - (Optional) The SKU of the Azure Load Balancer. Accepted values are Basic, Standard. Defaults to Standard
 
 Output Reference
 ------------

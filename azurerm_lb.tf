@@ -4,6 +4,7 @@ resource "azurerm_lb" "internal_lbs" {
     name                            = "${var.name-vars["account"]}-${var.region}-${var.name-vars["name"]}-${each.value}-lb"
     location                        = var.region
     resource_group_name             = azurerm_resource_group.rg-firewall.name
+    sku                             = var.internal_lb_sku
     frontend_ip_configuration {
       name                          = "${var.name-vars["account"]}-${var.region}-${var.name-vars["name"]}-${each.value}-lb"
       subnet_id                     = var.subnets[each.value].id

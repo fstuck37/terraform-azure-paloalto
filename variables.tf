@@ -136,3 +136,11 @@ variable "fw_intlb_ports" {
   default = ["TCP|80","TCP|443","TCP|22", "TCP|53", "UDP|53" ]
 }
 
+variable "internal_lb_sku" {
+  type = string
+  description = "(Optional) The SKU of the Azure Load Balancer. Accepted values are Basic, Standard. Defaults to Standard"
+  default = "Standard"
+}
+
+
+

@@ -133,7 +133,7 @@ variable "username" {
 variable "fw_intlb_ports" {
   type = list(string)
   description = "List of ports for the internal load balancer rules"
-  default = ["TCP|80","TCP|443","TCP|22", "TCP|53", "UDP|53" ]
+  default = ["ALL|0"]
 }
 
 variable "internal_lb_sku" {

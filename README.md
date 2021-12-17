@@ -130,8 +130,8 @@ Argument Reference
    * **storage_uri** - (Required) The Storage Account's Blob Endpoint which should hold the virtual machine's diagnostic files.
    * **fwversion** - (Optional) Specifies the version of the image used to create the virtual machine. Changing this forces a new resource to be created. Defaults to latest.
    * **username** - (Optional) Specifies the initial username to use to connect to the firewall. Defaults to paloalto.
-   * **fw_intlb_ports** - List of protocol|ports for the internal load balancer rules. This must include all protocol|port pairs permitted through the firewall. The default is ["TCP|80","TCP|443","TCP|22"]
-s   * **internal_lb_sku** - (Optional) The SKU of the Azure Load Balancer. Accepted values are Basic, Standard. Defaults to Standard
+   * **fw_intlb_ports** - List of protocol|ports for the internal load balancer rules. This must include all protocol|port pairs permitted through the firewall. The default is ["ALL|0"]
+   * **internal_lb_sku** - (Optional) The SKU of the Azure Load Balancer. Accepted values are Basic, Standard. Defaults to Standard
 
 Output Reference
 ------------

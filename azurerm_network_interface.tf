@@ -3,6 +3,7 @@ resource "azurerm_network_interface" "interfaces" {
     name                            = each.key
     location                        = var.region
     resource_group_name             = azurerm_resource_group.rg-firewall.name
+    enable_ip_forwarding            = true
     ip_configuration {
       name                          = each.key
       subnet_id                     = each.value.subnet_id
